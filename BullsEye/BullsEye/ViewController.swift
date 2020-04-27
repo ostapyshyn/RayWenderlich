@@ -29,6 +29,12 @@ class ViewController: UIViewController {
         totalScore.text = "0"
     }
     
+    @IBAction func pressefStartOver(_ sender: UIButton) {
+        roundOfTheGame = 0
+        score = 0
+        startNewRound()
+    }
+    
     @IBAction func sliderMoved(_ sender: UISlider) {
         let rounded = sender.value.rounded()
         currentValue = Int(rounded)
@@ -58,13 +64,16 @@ class ViewController: UIViewController {
             title = "Not Even Close..."
         }
         
-        totalScore.text = String(score)
+        
         
         let alert = UIAlertController(title: title, message: "You scored \(points)", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let action = UIAlertAction(title: "OK", style: .default, handler: {
+            action in
+            self.startNewRound()
+        })
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
-        startNewRound()
+        
     }
     
     func startNewRound() {
@@ -72,7 +81,7 @@ class ViewController: UIViewController {
         targetLabel.text = String(targetValue)
         currentValue = 50
         slider.value = Float(currentValue)
-        
+        totalScore.text = String(score)
         roundOfTheGame += 1
         round.text = String(roundOfTheGame)
     }
